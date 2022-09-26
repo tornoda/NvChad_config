@@ -1,0 +1,38 @@
+diff --git a/lua/plugins/configs/telescope.lua b/lua/plugins/configs/telescope.lua
+index 03e1467..97fc8b4 100644
+--- a/lua/plugins/configs/telescope.lua
++++ b/lua/plugins/configs/telescope.lua
+@@ -1,4 +1,5 @@
+ local present, telescope = pcall(require, "telescope")
++local trouble = require "trouble.providers.telescope"
+ 
+ if not present then
+   return
+@@ -40,7 +41,7 @@ local options = {
+       preview_cutoff = 120,
+     },
+     file_sorter = require("telescope.sorters").get_fuzzy_file,
+-    file_ignore_patterns = { "node_modules" },
++    -- file_ignore_patterns = { "node_modules" },
+     generic_sorter = require("telescope.sorters").get_generic_fuzzy_sorter,
+     path_display = { "truncate" },
+     winblend = 0,
+@@ -54,7 +55,17 @@ local options = {
+     -- Developer configurations: Not meant for general override
+     buffer_previewer_maker = require("telescope.previewers").buffer_previewer_maker,
+     mappings = {
+-      n = { ["q"] = require("telescope.actions").close },
++      n = {
++        ["q"] = require("telescope.actions").close,
++        ["<c-l>"] = trouble.open_with_trouble,
++      },
++      i = {
++        ["<c-l>"] = trouble.open_with_trouble,
++        ["<C-j>"] = require("telescope.actions").move_selection_next,
++        ["<C-k>"] = require("telescope.actions").move_selection_previous,
++        ["<Down>"] = require("telescope.actions").cycle_history_next,
++        ["<Up>"] = require("telescope.actions").cycle_history_prev,
++      },
+     },
+   },
+ 
